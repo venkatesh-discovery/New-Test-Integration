@@ -1,0 +1,27 @@
+# First 
+# 1. Go to https://wbdstaging.pagerduty.com/service-directory/{{SERVICE_ID}}/integrations
+# 2. Add github as a integration 
+# 3. Copy Integration Key
+# 4. Set integration key as a repository secret PAGERDUTY_CHANGE_INTEGRATION_KEY
+#  ie. gh secret set PAGERDUTY_CHANGE_INTEGRATION_KEY --repos wbd-streaming/dac-test-repo
+# 5. Copy this workflow in .github/workflows
+# 6. Commit changes
+# 7. Go to https://wbdstaging.pagerduty.com/service-directory/{{SERVICE_ID}}/activity
+# 8. You'll see changes in the recent changes section
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  send-pagerduty-change-event:
+    runs-on: ubuntu-latest
+    name: Sending PagerDuty Change Event
+    steps:
+      - name: Create a change event
+        uses: PagerDuty/pagerduty-change-events-action@master
+        with:
+          integration-key: ${{ secrets.PAGERDUTY_CHANGE_INTEGRATION_KEY }}
