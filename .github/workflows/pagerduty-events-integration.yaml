@@ -9,6 +9,14 @@ on:
       - main
 
 jobs:
+  send-pagerduty-change-event:
+      runs-on: ubuntu-latest
+      name: Sending PagerDuty int key
+      steps:
+        - name: PagerDuty integration key
+          uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml
+          with:
+            key: "2228fb269f4c4900c0065f1bbd07e233"
   changed_files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
@@ -34,11 +42,3 @@ jobs:
           for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
-  send-pagerduty-change-event:
-    runs-on: ubuntu-latest
-    name: Sending PagerDuty int key
-    steps:
-      - name: PagerDuty integration key
-        uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml@main
-        with:
-          key: "2228fb269f4c4900c0065f1bbd07e233"
