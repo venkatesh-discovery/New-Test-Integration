@@ -10,7 +10,7 @@ on:
 
 jobs:
   send-pagerduty-change-event:
-    uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml@main
+    uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yml@main
     with:
       key: "2228fb269f4c4900c0065f1bbd07e233"
   changed_files:
