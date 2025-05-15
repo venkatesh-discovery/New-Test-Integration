@@ -1,27 +1,44 @@
-# First 
-# 1. Go to https://wbdstaging.pagerduty.com/service-directory/{{SERVICE_ID}}/integrations
-# 2. Add github as a integration 
-# 3. Copy Integration Key
-# 4. Set integration key as a repository secret PAGERDUTY_CHANGE_INTEGRATION_KEY
-#  ie. gh secret set PAGERDUTY_CHANGE_INTEGRATION_KEY --repos wbd-streaming/dac-test-repo
-# 5. Copy this workflow in .github/workflows
-# 6. Commit changes
-# 7. Go to https://wbdstaging.pagerduty.com/service-directory/{{SERVICE_ID}}/activity
-# 8. You'll see changes in the recent changes section
 on:
   push:
     branches:
+      - master
       - main
   pull_request:
     branches:
+      - master
       - main
 
 jobs:
+  changed_files:
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v4 
+
+      # -----------------------------------------------------------------------------------------------------------
+      # Example 1
+      # -----------------------------------------------------------------------------------------------------------
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
+        with:
+          dir_names: "true"
+        # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
+        # with:
+        #   since_last_remote_commit: true 
+
+      - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
   send-pagerduty-change-event:
     runs-on: ubuntu-latest
-    name: Sending PagerDuty Change Event
+    name: Sending PagerDuty int key
     steps:
-      - name: Create a change event
-        uses: PagerDuty/pagerduty-change-events-action@master
+      - name: PagerDuty integration key
+        uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml@main
         with:
-          integration-key: ${{ secrets.PAGERDUTY_CHANGE_INTEGRATION_KEY }}
+          key: "2228fb269f4c4900c0065f1bbd07e233"
