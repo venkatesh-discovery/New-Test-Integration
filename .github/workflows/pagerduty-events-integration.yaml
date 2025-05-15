@@ -14,7 +14,7 @@ jobs:
       name: Sending PagerDuty int key
       steps:
         - name: PagerDuty integration key
-          uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml
+          uses: venkatesh-discovery/New-Private-Test-Repo/.github/workflows/pagerduty-events-integration.yaml@main
           with:
             key: "2228fb269f4c4900c0065f1bbd07e233"
   changed_files:
